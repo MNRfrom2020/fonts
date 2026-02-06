@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 window.openMobileMenu = () => {
   document.getElementById("openMenu")?.classList.add("hidden");
   document.getElementById("closeMenu")?.classList.remove("hidden");
-  document.getElementById("menu")?.classList.remove("translate-x-full");
+  document.getElementById("menu")?.classList.remove("translate-x-full", "invisible");
   document.getElementById("menu")?.classList.add("translate-x-0");
   const bg = document.getElementById("mobileMenuBackground");
   bg?.classList.remove("hidden");
@@ -208,7 +208,7 @@ window.closeMobileMenu = () => {
   document.getElementById("closeMenu")?.classList.add("hidden");
   document.getElementById("openMenu")?.classList.remove("hidden");
   document.getElementById("menu")?.classList.remove("translate-x-0");
-  document.getElementById("menu")?.classList.add("translate-x-full");
+  document.getElementById("menu")?.classList.add("translate-x-full", "invisible");
   const bg = document.getElementById("mobileMenuBackground");
   bg?.classList.add("opacity-0");
   setTimeout(() => bg?.classList.add("hidden"), 300);

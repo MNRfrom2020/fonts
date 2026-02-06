@@ -58,7 +58,14 @@ const schemaData = {
         }
       }
     </script>
-    <style>.prose img {border-radius: 20px;}</style>
+    <style is:global>
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+      }
+      .prose img { border-radius: 20px; }
+    </style>
     <link rel="icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/icon.png">
     <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
