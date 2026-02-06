@@ -1,0 +1,27 @@
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+  <!-- Soft Aura Glows -->
+  <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:bg-blue-900/10 blur-[120px]"></div>
+  <div class="absolute top-[20%] -right-[10%] w-[35%] h-[35%] rounded-full bg-purple-100/30 dark:bg-purple-900/10 blur-[100px]"></div>
+  <div class="absolute -bottom-[10%] left-[20%] w-[30%] h-[30%] rounded-full bg-indigo-100/20 dark:bg-indigo-900/5 blur-[80px]"></div>
+
+  <!-- Subtle Dot Grid -->
+  <div 
+    class="absolute inset-0 opacity-20 dark:opacity-25 text-neutral-900 dark:text-neutral-100" 
+    style="background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 24px 24px;"
+  ></div>
+  
+  <!-- Smooth Fade to White/Dark -->
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white dark:via-neutral-950/20 dark:to-neutral-950"></div>
+</div>
+
+<style>
+  /* Optional: subtle animation for glows */
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+  
+  div[class*="blur-"] {
+    animation: pulse 15s infinite alternate ease-in-out;
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import bengaliCharacters from "../../collections/characters/bengali.json";
+import otherCharacters from "../../collections/characters/others.json";
+import CharacterCard from "../../components/character-card.astro";
+import Layout from "../../layouts/main.astro";
+import PageHeading from "../../components/page-heading.astro";
+
+const characters = [...bengaliCharacters, ...otherCharacters];
+
+const CharactersKeywords = characters.map(character => character.name.toLowerCase()).join(', ');
+const MetaKeywords = `bangla unicode characters, bangla characters, free bangla symbols, ${CharactersKeywords}, bangla characters for website, bangla unicode, copy paste bangla symbol, free bangla icon, bengali web text, bengali alphabet, bangla alphabet list`;
+
+const FontPreloads = `<link rel="preload" as="font" type="font/woff2" href="/fonts/noto-serif-bengali/noto-serif-bengali-regular.woff2" crossorigin="anonymous">`;
+---
+
+<Layout title="Unicode Characters - MNR Fonts" extraStyleUrl="/css/noto-serif-bengali.min.css" metaDescription="Explore Unicode characters used in Bangla typography including Bengali, Arabic, Devanagari and more." fontPreloads={FontPreloads} metaKeywords={MetaKeywords}>
+  <section class="relative z-20 max-w-3xl mx-auto my-12 px-7 lg:px-0">
+    <PageHeading
+      title="Unicode Characters"
+      description="Browse Unicode characters relevant to Bangla typography. This includes native Bengali characters and symbols from other scripts often used alongside Bengali, such as Arabic, Devanagari."
+    />
+
+<div class="max-w-3xl my-12 mx-auto">
+  <div
+    class="grid items-stretch w-full grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-7 mt-7"
+  >
+    {
+      characters.map((character) => {
+        return (
+          <CharacterCard
+            CharacterSymbol={character.symbol}
+            CharacterUnicode={character.unicode}
+            CharacterHTML={character.html}
+            CharacterName={character.name}
+            CharacterPath={character.path}
+          />
+        )
+      })
+    }
+  </div>
+</div>
+
+</section>
+</Layout>

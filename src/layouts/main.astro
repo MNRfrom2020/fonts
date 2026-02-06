@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+import SquareLines from "../components/square-lines.astro";
+const { title, extraStyleUrl, metaDescription, fontPreloads, metaKeywords } = Astro.props;
+
+const url = `https://fonts.mnr.bd${Astro.url.pathname}`;
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "url": url,
+  "name": title,
+  "description": metaDescription,
+  "keywords": metaKeywords,
+  "publisher": {
+    "@type": "Organization",
+    "name": "MNR Fonts"
+  }
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+{metaDescription && <meta name="description" content={metaDescription} />}
+{metaKeywords && <meta name="keywords" content={metaKeywords} />}
+<meta name="theme-color" content="#ffffff">
+<meta name="google-site-verification" content="8w5E8Hs9xki0okFY2j_2aXhpFL1PQTEgT7cgtiw0eKc" />
+<meta property="og:title" content={title}>
+{metaDescription && <meta property="og:description" content={metaDescription}>}
+<meta property="og:url" content={`https://fonts.mnr.bd${Astro.url.pathname}`}>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MNR Fonts">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="bn_BD">
+<meta name="twitter:title" content={title}>
+{metaDescription && <meta name="twitter:description" content={metaDescription}>}
+<meta name="twitter:url" content={`https://fonts.mnr.bd${Astro.url.pathname}`}>
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href={`https://fonts.mnr.bd${Astro.url.pathname}`}>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/opensans/v44/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-mu0SC55I.woff2" crossorigin="anonymous">
+<Fragment set:html={fontPreloads} />
+{extraStyleUrl && <link rel="stylesheet" href={extraStyleUrl}/>}
+<link rel="manifest" href="/manifest.json">
+<link rel="sitemap" href="/sitemap-index.xml">
+    <script is:inline>
+      if (typeof Storage !== "undefined") {
+        const userTheme = localStorage.getItem("dark_mode");
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (userTheme === "true" || (userTheme === null && systemTheme)) {
+          document.documentElement.classList.add("dark");
+        }
+      }
+    </script>
+    <style>.prose img {border-radius: 20px;}</style>
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon.png">
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body class="antialiased bg-white dark:bg-neutral-950 overflow-x-hidden">
+    <SquareLines />
+    <Header />
+<div class="py-10">
+    <slot />
+</div>
+    <Footer />
+
+    <!--script src="../assets/js/main.js"></script-->
+    <script is:inline defer src="/assets/js/main.js"></script>
+    <script is:inline>if (typeof navigator.serviceWorker !== 'undefined') {navigator.serviceWorker.register('/sw.js')}</script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+---
+import FontsList from "../components/home/fonts-list.astro";
+import Layout from "../layouts/main.astro";
+import fonts from "../collections/fonts.json";
+
+
+
+const preloadedFontsCSS = fonts
+  .slice(0, 4)
+  .map(font => `
+@font-face {
+  font-family: '${font.FontName}';
+  src: url('/fonts/${font.FontPath}/${font.FontPath}-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}`)
+  .join('');
+
+
+const preloadedFonts = fonts.slice(0, 4);
+const FontPreloads = preloadedFonts
+  .map(
+    (font) =>
+      `<link rel="preload" as="font" type="font/woff2" href="/fonts/${font.FontPath}/${font.FontPath}-regular.woff2" crossorigin="anonymous">`
+  )
+  .join("");
+
+const FontsKeywords = fonts.map(font => font.FontName.toLowerCase()).join(', ');
+const MetaKeywords = `mnr fonts, bangla fonts, free bangla fonts, ${FontsKeywords}, bangla fonts for website, bangla font, embed bangla font, free bangla web font, bengali web font, bengali font, bangla font cdn`;
+---
+
+<Layout title="MNR Fonts - Simple Font CDN" metaDescription="Simple Font CDN providing high-quality fonts for websites. Easily use fonts on your website with fast loading and smooth rendering." fontPreloads={FontPreloads} metaKeywords={MetaKeywords}>
+<!--extraStyleUrl="/css/top-webfonts.min.css"-->
+<style is:inline set:html={preloadedFontsCSS}>
+</style>
+
+<section class="relative z-20 max-w-3xl mx-auto py-20 px-7 lg:px-0">
+  <div class="flex flex-col items-center text-center space-y-6">
+    <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
+      Modern Bangla Font CDN
+    </div>
+    <h1 class="text-5xl sm:text-7xl font-black tracking-tighter text-neutral-900 dark:text-white leading-[1.1]">
+      Better Fonts for <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Websites.</span>
+    </h1>
+    <p class="max-w-xl text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+      Explore and embed high-quality Bangla fonts effortlessly. A minimal and fast CDN for designers and developers.
+    </p>
+  </div>
+</section>
+
+<FontsList/>
+
+<script is:inline>
+  document.querySelectorAll('.skeleton').forEach((el, index) => {
+    if (index < 4) el.classList.add('loaded');
+  });
+</script>
+
+
+</Layout>

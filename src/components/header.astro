@@ -1,0 +1,125 @@
+---
+import menus from "../collections/menu.json";
+import Logo from "../components/logo.astro";
+---
+
+<!--div class="relative w-full h-20 opacity-0 pointer-events-none"></div-->
+<header id="header" class="sticky top-0 z-50 w-full h-16 border-b border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
+  <div
+    class="flex items-center justify-between h-full max-w-3xl px-7 lg:px-0 mx-auto select-none"
+  >
+    <Logo />
+
+    <!-- Desktop Search Bar & Dark Toggle -->
+    <div class="hidden sm:flex items-center flex-1 justify-center px-4 space-x-4">
+      <div class="openSearch flex items-center justify-center w-full max-w-xs px-4 py-1.5 tracking-widest space-x-1 text-[0.85rem] border rounded-xl bg-white dark:bg-neutral-900 text-neutral-500 border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md cursor-pointer transition-shadow">
+        <p class="leading-none">Search Fonts</p>
+        <div class="flex items-center justify-center w-6 h-6 translate-x-1 border rounded-full border-neutral-100 dark:border-neutral-800">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"></path> </svg>
+        </div>
+      </div>
+
+      <button id="darkToggleDesktop" class="darkToggle hidden sm:flex items-center justify-center w-9 h-9 rounded-xl cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-all" aria-label="Toggle Dark Mode">
+        <svg class="sun hidden w-5 h-5 dark:text-neutral-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <svg class="moon hidden w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+    </div>
+
+    <div class="flex items-center space-x-4 ml-auto sm:ml-0">
+      <!-- Mobile Dark Toggle -->
+      <button id="darkToggleMobile" class="darkToggle flex sm:hidden items-center justify-center w-9 h-9 rounded-xl cursor-pointer focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg class="sun hidden w-5 h-5 dark:text-neutral-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <svg class="moon hidden w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+
+      <!-- Mobile Search Icon -->
+      <div class="openSearch flex sm:hidden items-center font-medium tracking-wide cursor-pointer text-neutral-600 group dark:text-neutral-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+        </svg>
+      </div>
+    </div>
+
+    <div
+      id="mobileMenuBackground"
+      onclick="closeMobileMenu()"
+      class="fixed inset-0 z-20 hidden w-screen h-screen duration-300 ease-out bg-white/90 dark:bg-neutral-950/90"
+    >
+    </div>
+    <nav
+      class="relative z-30 flex flex-row-reverse justify-start text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row"
+    >
+      <div
+        id="openMenu"
+        class="flex flex-col items-end justify-center w-6 h-6 ml-4 cursor-pointer sm:hidden"
+      >
+        <svg
+          class="w-8 h-8 dark:text-neutral-200"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke="currentColor"><path d="M4 8h16M4 16h16"></path></svg
+        >
+      </div>
+      <div
+        id="closeMenu"
+        class="flex flex-col items-end justify-center hidden w-6 h-6 ml-4 -translate-x-1 cursor-pointer sm:hidden"
+      >
+        <svg
+          class="w-6 h-6 text-neutral-600 dark:text-neutral-200"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg
+        >
+      </div>
+      <div
+        id="menu"
+        class="fixed top-0 bottom-0 right-0 z-40 flex flex-col items-start justify-start w-3/4 max-w-[300px] h-screen pt-20 pb-10 duration-300 ease-out translate-x-full bg-white border-l border-neutral-200 dark:bg-neutral-950 dark:border-neutral-800 sm:relative sm:top-0 sm:h-auto sm:w-auto sm:max-w-none sm:pt-0 sm:pb-0 sm:translate-x-0 sm:flex-row sm:border-none sm:bg-transparent"
+      >
+        {
+          menus.map((menu) => {
+            return (
+              <a
+                href={menu.url}
+                class="relative flex items-center justify-start sm:justify-center w-full px-7 sm:px-3 py-4 sm:py-0 font-medium tracking-wide duration-200 ease-out hover:text-neutral-900 dark:hover:text-white"
+              >
+                {menu.name}
+              </a>
+            )
+          })
+        }
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<div id="searchModal" class="fixed top-[74px] inset-0 bg-white/90 dark:bg-black/10 hidden z-50 flex items-start justify-center px-7">
+
+    <div class="w-full max-w-md rounded-xl shadow-lg relative">
+
+      <div class="relative">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Type a font name..." 
+          class="w-full px-4 pr-10 py-2 border border-neutral-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 bg-white dark:bg-neutral-900 transition-all"
+          autocomplete="off"
+        />
+        <button 
+          id="clearBtn" 
+          class="absolute right-4 top-2 text-gray-400 hover:text-gray-600 focus:outline-none hidden"
+        >✕</button>
+      </div>
+      <div 
+        id="results" 
+        class="mt-4 max-h-[400px] overflow-y-auto bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-xl hidden absolute w-full z-20 py-1"
+      ></div>
+
+    </div>
+  </div>

@@ -1,0 +1,134 @@
+---
+import Layout from "../../../layouts/main.astro";
+import fonts from "../../../collections/fonts.json";
+import charactersBengali from '../../../collections/characters/bengali.json';
+import charactersOthers from '../../../collections/characters/others.json';
+
+export async function getStaticPaths() {
+  const allCharacters = [...charactersBengali, ...charactersOthers];
+
+  return allCharacters.map(character => ({
+    params: { slug: character.path },
+    props: character,
+  }));
+}
+
+const { symbol, unicode, html, name, path } = Astro.props;
+
+const formattedUnicode = unicode.replace('U+', '');
+const cssEntity = `\\${formattedUnicode}`;
+const jsEntity = `\\u${formattedUnicode}`;
+
+const characters = [...charactersBengali, ...charactersOthers];
+const currentIndex = characters.findIndex(char => char.path === path);
+const prev = characters[currentIndex - 1];
+const next = characters[currentIndex + 1];
+
+const PageTitle = `${symbol} ${name} (${unicode}) Unicode Character`;
+const MetaDescription = `${name} is a unicode character, symbolized as "${symbol}". Easily use it in HTML, CSS and JavaScript on your website.`;
+
+const charNameL = name.toLowerCase();
+const MetaKeywords = `${charNameL}, ${charNameL} unicode, ${charNameL} character, ${charNameL} unicode character, ${charNameL} html entity, ${charNameL} css entity, ${charNameL} js entity, ${charNameL} code point, ${charNameL} symbol, ${charNameL} copy, ${charNameL} copy paste, copy ${charNameL}, ${charNameL} unicode copy, ${charNameL} symbol copy paste, ${charNameL} text copy, text unicode, character unicode, unicode character, text character, unicode ${charNameL}`;
+
+const ExtraStyleUrl = `/css/webfonts.min.css`;
+const FontPreloads = `<link rel="preload" as="font" type="font/woff2" href="/fonts/noto-serif-bengali/noto-serif-bengali-regular.woff2" crossorigin="anonymous">`;
+---
+
+<Layout title={PageTitle} extraStyleUrl={ExtraStyleUrl} metaDescription={MetaDescription} metaKeywords={MetaKeywords} fontPreloads={FontPreloads}>
+
+<section class="relative z-20 max-w-3xl mx-auto my-12 px-7 lg:px-0 overflow-x-hidden">
+
+<div class="relative z-20 w-full mx-auto lg:mx-0">
+    <p class="mb-3 text-base leading-6 text-neutral-800 dark:text-neutral-200 sm:mb-4 lg:mb-6 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"><a href="/unicode/" class="text-blue-600 hover:underline">&larr; Unicode Characters</a></p>
+  <h1 class="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-5xl lg:text-6xl">{name}</h1>
+</div>
+
+    
+
+    <div id="symbol" style="font-family: 'Noto Serif Bengali',serif;" class="
+inset-0 h-full w-full bg-white bg-[radial-gradient(#e0e0e0_1px,transparent_1px)] [background-size:16px_16px]
+border border-neutral-200 dark:border-neutral-800
+text-[6rem] my-7 rounded-xl px-10 py-6">{symbol}</div>
+
+  
+      <h2>Name: <span class="text-xl font-semibold pl-2">{name}</span></h2>
+      <h3>Unicode: <span class="text-xl font-semibold pl-2">{unicode}</span></h3>
+      <h3>CSS: <span class="text-xl font-semibold pl-2">{cssEntity}</span></h3>
+      <h3>JS, JSON: <span class="text-xl font-semibold pl-2">{jsEntity}</span></h3>
+      <h3>HTML: <span class="text-xl font-semibold pl-2">{html}</span></h3>
+
+  
+<pre class="mt-8 bg-gray-900 dark:bg-gray-900 rounded-xl p-4 text-sm text-neutral-100 dark:text-neutral-200"><code>/* CSS Usage Example */
+.selector::before &#123;
+  content: "{cssEntity}";
+&#125;</code></pre>
+
+<pre class="mt-5 bg-gray-900 dark:bg-gray-900 rounded-xl p-4 text-sm text-neutral-100 dark:text-neutral-200"><code>// JavaScript Usage Example
+console.log("{jsEntity}"); </code></pre>
+
+<pre class="mt-5 bg-gray-900 dark:bg-gray-900 rounded-xl p-4 text-sm text-neutral-100 dark:text-neutral-200"><code>&lt;!-- HTML Usage Example --&gt;
+&lt;p&gt;{html}&lt;/p&gt;</code></pre>
+
+<div class="mt-14">
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">{name} Preview with System Fonts</h2>
+  <p class="text-gray-800 dark:text-gray-300 mb-3">This section shows how the {name} appears using fonts installed on your device. The appearance may vary depending on your operating system and browser.</p>
+
+  <div class="grid grid-cols-3 gap-4">
+    <div class="border border-neutral-200 dark:border-neutral-800 transition hover:bg-gray-50 dark:bg-gray-900 rounded-xl py-6 text-center">
+      <div class="text-5xl font-normal font-sans text-gray-900 dark:text-white mb-2">{symbol}</div>
+      <div class="text-gray-800 dark:text-gray-200 text-sm font-sans">sans-serif</div>
+    </div>
+
+    <div class="border border-neutral-200 dark:border-neutral-800 transition hover:bg-gray-50 dark:bg-gray-900 rounded-xl py-6 text-center">
+      <div class="text-5xl font-normal font-serif text-gray-900 dark:text-white mb-2">{symbol}</div>
+      <div class="text-gray-800 dark:text-gray-200 text-sm font-serif">serif</div>
+    </div>
+
+    <div class="border border-neutral-200 dark:border-neutral-800 transition hover:bg-gray-50 dark:bg-gray-900 rounded-xl py-6 text-center">
+      <div class="text-5xl font-normal font-mono text-gray-900 dark:text-white mb-2">{symbol}</div>
+      <div class="text-gray-800 dark:text-gray-200 text-sm font-mono">monospace</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="mt-14">
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">{name} Preview with Various Web Fonts</h2>
+  <p class="text-gray-800 dark:text-gray-300 mb-3">This section shows how the {name} is rendered using different web fonts. Click on a font to view its details.</p>
+
+<div class="grid gap-4 grid-cols-3">
+  {fonts.map(font => (
+    <a href={`/${font.FontPath}/`} aria-label={`${name} preview in ${font.FontName} font`} class="border border-neutral-200 dark:border-neutral-800 hover:bg-gray-50 transition dark:hover:bg-gray-800 dark:bg-gray-900 rounded-xl py-6 text-center">
+      <div
+        style={`font-family: ${font.FontFamily};`}
+        class="text-5xl font-normal text-gray-900 dark:text-white mb-2"
+      >
+        {symbol}
+      </div>
+      <div class="text-gray-800 dark:text-gray-200 text-sm">
+        {font.FontName}
+      </div>
+    </a>
+  ))}
+</div>
+
+</div>
+
+
+
+
+    <nav class="mt-14 flex justify-between">
+      {prev ? (
+        <a class="max-w-[30vw] hover:underline" href={`/unicode/character/${prev.path}/`}>&larr; {prev.symbol} {prev.name}</a>
+      ) : <span />}
+      
+      {next ? (
+        <a class="max-w-[30vw] text-right hover:underline" href={`/unicode/character/${next.path}/`}>{next.name} {next.symbol} &rarr;</a>
+      ) : <span />}
+    </nav>
+  
+</section>
+</Layout>

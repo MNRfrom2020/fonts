@@ -1,0 +1,20 @@
+<label for="previewText" class="sr-only">Write font preview text</label>
+<input id="previewText" type="text" placeholder="Type here to preview text" class="mt-10 w-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+<div class="flex items-center justify-between mt-4">
+  <div class="relative w-28 mr-4">
+    <label for="fontSizeDropdown" class="sr-only">Font size dropdown</label>
+    <select id="fontSizeDropdown" class="w-full border border-neutral-200 dark:border-neutral-800 rounded-xl px-3 py-1 bg-white dark:bg-neutral-900 appearance-none text-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+      <option value="16">16px</option>
+      <option value="24">24px</option>
+      <option value="32">32px</option>
+      <option value="40" selected>40px</option>
+      <option value="48">48px</option>
+      <option value="64">64px</option>
+      <option hidden value="custom">Custom</option>
+    </select>
+    <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">▼</span>
+  </div>
+  <label for="fontSizeSlider" class="sr-only">Font size slider</label>
+  <input id="fontSizeSlider" type="range" min="8" max="64" step="1" value="40" class="w-2/3 h-1 md:h-2 bg-gray-200 dark:bg-gray-800 rounded-lg appearance-none cursor-pointer">
+  <button id="italicToggle" class="border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-1 bg-white dark:bg-neutral-900 text-black dark:text-white text-md ml-4 transition-all hover:bg-neutral-50 dark:hover:bg-neutral-800">Italic</button>
+</div>

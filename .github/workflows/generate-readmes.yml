@@ -1,0 +1,98 @@
+name: Generate Font READMEs new
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-readmes:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Validate fonts.json
+        run: |
+          if [ ! -f "./src/collections/fonts.json" ]; then
+            echo "Error: fonts.json file not found!"
+            exit 1
+          fi
+          if ! jq empty "./src/collections/fonts.json"; then
+            echo "Error: fonts.json is not a valid JSON file!"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Generate or Update README files
+        run: |
+          node <<EOF
+          const fs = require("fs");
+          const path = require("path");
+
+          const fontsDir = "./public/fonts";
+          const fontsDataPath = "./src/collections/fonts.json";
+          const licensesPath = "./src/collections/licenses.json";
+
+          const fontsData = JSON.parse(fs.readFileSync(fontsDataPath, "utf-8"));
+          const licenses = JSON.parse(fs.readFileSync(licensesPath, "utf-8"));
+
+          fs.readdirSync(fontsDir).forEach((fontFolder) => {
+              const fontPath = path.join(fontsDir, fontFolder);
+              if (fs.statSync(fontPath).isDirectory()) {
+                  const fontData = fontsData.find(f => f.FontPath === fontFolder);
+                  if (!fontData) return;
+
+                  const licenseInfo = licenses[fontData.FontLicense];
+                  const licenseText = licenseInfo
+                      ? licenseInfo.LicenseText
+                      : \`This font is licensed under the \${fontData.FontLicense} license.\`;
+
+                  const readmeContent = "# " + fontData.FontName + "\n\n" +
+                      "This directory contains the \"" + fontData.FontName + "\" font files.\n\n" +
+                      "[![" + fontData.FontName + " Font Preview](https://banglawebfonts.pages.dev/fonts/" + fontData.FontPath + "/" + fontData.FontPath + "-font.jpg)](https://banglawebfonts.pages.dev/" + fontData.FontPath + "/)\n\n" +
+                      "🌐 [banglawebfonts.pages.dev/" + fontData.FontPath + "](https://banglawebfonts.pages.dev/" + fontData.FontPath + "/)\n\n" +
+                      "## Embed:\n" +
+                      "To use the " + fontData.FontName + " font on your website, add the following code to your HTML \`<head>\` section:\n" +
+                      "\`\`\`html\n<link href='https://banglawebfonts.pages.dev/css/" + fontData.FontPath + ".css' rel='stylesheet'>\n\`\`\`\n\n" +
+                      "or,\n" +
+                      "\`\`\`html\n<style>\n  @import url('https://banglawebfonts.pages.dev/css/" + fontData.FontPath + ".css');\n</style>\n\`\`\`\n\n" +
+                      "> [!TIP]\n> You can use the \`.min.css\` version for better performance and faster loading times.\n> **Minified CSS Stylesheet:**  \n> \`\`\`\n> https://banglawebfonts.pages.dev/css/" + fontData.FontPath + ".min.css\n> \`\`\`\n\n" +
+                      "## CSS:\n" +
+                      "Use the following CSS rule to specify the " + fontData.FontName + " font:\n" +
+                      "\`\`\`css\nbody {\n  font-family:" + fontData.FontFamily + ";\n}\n\`\`\`\n\n" +
+                      "## Font Details:\n" +
+                      "- **Family:** " + fontData.FontName + "\n" +
+                      "- **Total Styles:** " + fontData.TotalStyles + "\n" +
+                      "- **Available Weights:** " + fontData.FontTesterWeights.join(", ") + "\n" +
+                      "- **Font Designer:** [" + fontData.FontDesigner + "](" + fontData.FontDesignerURL + ")\n" +
+                      "- **License:** " + fontData.FontLicense + "\n\n" +
+                      "## License Information:\n" +
+                      licenseText + "\n\n" +
+                      "For more details, visit: [" + fontData.FontName + " on Bangla Web Fonts](https://banglawebfonts.pages.dev/" + fontData.FontPath + "/#about).";
+
+                  const readmePath = path.join(fontPath, "README.md");
+                  fs.writeFileSync(readmePath, readmeContent);
+                  console.log("Processed: " + readmePath);
+              }
+          });
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "fuadhasanshihab"
+          git config --global user.email "85599261+fuadhasanshihab@users.noreply.github.com"
+          git add .
+          git commit -m "Update README.md" || exit 0
+          git push origin ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,45 @@
+{
+  "name": "MNR Fonts",
+  "short_name": "MNR Fonts",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Fonts",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Docs",
+      "url": "/docs",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "description": "Simple Font CDN for seamless typography on the web.",
+  "scope": "/",
+  "related_applications": [],
+  "prefer_related_applications": false
+}
